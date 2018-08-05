@@ -21,6 +21,7 @@ class MainMenu:
         menu = MenuBar.Menu(self.master)
         menu.to_window()
         menu.add_cascade(label="Уууууеееее")
+        menu.add_cascade(label="Новый интерфейс")
 
     """def create_menu(self):
         # Add default parameter for working

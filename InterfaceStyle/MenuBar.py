@@ -17,6 +17,6 @@ class Menu(ttk.Frame):
 
     def add_cascade(self, label=""):
         style.Theme().menu_btn_style()
-        cascade_btn = ttk.Button(self, text=str(label), style="Menu.TButton")
+        self.cascade_btn = ttk.Button(self, text=str(label), style="Menu.TButton")
 
-        cascade_btn.pack(side="left")
+        self.cascade_btn.pack(side="left")

@@ -10,16 +10,14 @@ class Theme:
         self.style = ttk.Style()
 
     def menu_bar_style(self, background="#202533", borderwidth=0, padX=0, padY=0):
-        self.style.configure("Menu.TFrame", background=background, borderwidth=borderwidth, padx=padX, pady=padY,
-                             height=25)
+        self.style.configure("Menu.TFrame", background=background, borderwidth=borderwidth, padx=padX, pady=padY)
 
     def menu_btn_style(self, foreground="white", background="#202533", relief="flat",
                        focus_background="blue"):
         self.style.theme_use("clam")
         self.style.configure("Menu.TButton", foreground=foreground, relief=relief, font=("Sans Sherif", 8, "bold"),
-                             bg=background)
-        self.style.map("Menu.TButton", background=[('pressed', '!disabled', '!active', focus_background),
-                                                   ('focus', focus_background)])
+                             background=background)
+        self.style.map("Menu.TButton", background=[('focus', focus_background)])
 
     def main_frames(self):
         background_image = PhotoImage(file=
