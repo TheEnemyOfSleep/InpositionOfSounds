@@ -13,7 +13,6 @@ class MainMenu:
         self.master = master
         self.create_menu()
         'Import modules (style.py, sql.py) by path'
-        style.Theme()
 
         self.style_dict = style.Theme().get_style_dict()
 

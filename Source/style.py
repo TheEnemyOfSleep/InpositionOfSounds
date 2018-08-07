@@ -9,9 +9,6 @@ class Theme:
                            'bg_btn_sel': "#32323246"}
         self.style = ttk.Style()
 
-    def menu_bar_style(self, background="#202533", borderwidth=0, padX=0, padY=0):
-        self.style.configure("Menu.TFrame", background=background, borderwidth=borderwidth, padx=padX, pady=padY)
-
     def menu_btn_style(self, foreground="white", background="#202533", relief="flat",
                        focus_background="blue"):
         self.style.theme_use("clam")

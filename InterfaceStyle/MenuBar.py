@@ -1,16 +1,15 @@
-from tkinter import ttk, Button, Frame, SEPARATOR, Canvas
+from tkinter import ttk, Frame
 from Source import style
 
 
-class Menu(ttk.Frame):
-    def __init__(self, master):
+class Menu(Frame):
+    def __init__(self, master=None):
         self.master = master
-        super(Menu, self).__init__(self.master)
+        super().__init__()
         self.create_menu_style()
 
     def create_menu_style(self):
-        style.Theme().menu_bar_style()
-        self.configure(style="Menu.TFrame")
+        self.configure(background=style.Theme().get_style_dict()['bg_window'])
 
     def to_window(self):
         self.pack(fill="x", side="top")
