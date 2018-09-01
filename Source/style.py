@@ -16,10 +16,15 @@ class Theme(ttk.Style):
 
     def menu_btn_style(self, foreground="white", background="#202533", relief="flat",
                        focus_background="#16a4b5"):
-        self.theme_use("clam")
-        self.configure("Menu.TButton", foreground=foreground, relief=relief, font=("Sans Sherif", 8, "bold"),
-                             background=background)
 
+        # Set flat theme "clam"
+        self.theme_use("clam")
+
+        # set configuration for button
+        self.configure("Menu.TButton", foreground=foreground, relief=relief, font=("Sans Sherif", 8, "bold"),
+                             background=background, width=0, height=0)
+
+        # remove focus ring for button
         self.layout("Menu.TButton", [
             ("Button.focus", None), # Del focus ring
             ("Button.background", {"children": # get children background
@@ -30,7 +35,33 @@ class Theme(ttk.Style):
                                                        })]
                                    })
         ])
+
+        # set background focus color for button
         self.map("Menu.TButton", background=[('focus', focus_background)])
+
+    def menu_frame_btn_style(self, foreground="white", background="#202533", relief="flat", focus_background="#16a4b5"):
+
+        # Set flat theme "clam"
+        self.theme_use("clam")
+
+        # set configuration for button
+        self.configure("MenuFrame.TButton", foreground=foreground, relief=relief, font=("Sans Sherif", 8, "bold"),
+                             background=background, width=0, height=0, anchor='w')
+
+        # remove focus ring for button
+        self.layout("MenuFrame.TButton", [
+            ("Button.focus", None), # Del focus ring
+            ("Button.background", {"children": # get children background
+                                   [("Button.button", {"children": # get children button
+                                                       [("Button.padding", {"children": # get children padding
+                                                                            [("Button.label", {"side": "left", "expand": 1})]
+                                                                            })]
+                                                       })]
+                                   })
+        ])
+
+        # set background focus color for button
+        self.map("MenuFrame.TButton", background=[('active', focus_background)])
 
     def main_frames(self):
         background_image = PhotoImage(file=

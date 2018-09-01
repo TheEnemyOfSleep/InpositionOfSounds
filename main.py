@@ -1,4 +1,4 @@
-from tkinter import Tk, Frame, Button, Canvas
+from tkinter import Tk
 import interface
 
 
@@ -12,13 +12,10 @@ class Application(Tk):
         root_dict = {'relief': "flat", 'bg_window': "#202533"}
         self.configure(background=root_dict['bg_window'], relief=root_dict['relief'])
 
-    # Change main window
-    def start_program(self):
-
-        self.mainloop()
-
 
 root = Application()
 root.init_ui()
 root.sel_win_style()
-root.start_program()
+root.mainloop()
+
+

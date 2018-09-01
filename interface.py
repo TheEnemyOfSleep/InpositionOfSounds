@@ -1,7 +1,5 @@
-import tkinter as ttk
 from tkinter import ttk, Menu
-
-from Source import style, sql
+from Source import style, sql, events
 from InterfaceStyle import MenuBar
 
 'Main class for UI'
@@ -17,10 +15,22 @@ class MainMenu:
         self.style_dict = style.Theme().get_style_dict()
 
     def create_menu(self):
+
         menu = MenuBar.Menu(self.master)
         menu.to_window()
-        menu.add_cascade(label="Уууууеееее")
-        menu.add_cascade(label="Новый интерфейс")
+        file = menu.add_cascade(label="File")
+        edit = menu.add_cascade(label="Edit")
+
+        menu_file = MenuBar.MenuFrame(self.master, button=file)
+        menu_file.add_command(label="Create", command=events.MenuBarEvents().test)
+        menu_file.add_command(label="New project")
+
+    def create_entry(self):
+        test = ttk.Entry(self.master)
+        test.pack()
+        test.insert(0, "Label")
+
+
 
     """def create_menu(self):
         # Add default parameter for working
