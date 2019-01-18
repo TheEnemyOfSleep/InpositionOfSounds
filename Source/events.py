@@ -20,5 +20,22 @@ class MenuBarEvents(object):
         else:
             self.event.widget.configure(takefocus=1)
 
+    # If entered on the rmf button, then add right menu frame
+    def forget_all_rmf(self, all_rmf, lvl=None, button=None):
+        for rmf in all_rmf:
+            # Check lvl rmf for forgetting place
+            if lvl+1 is rmf.lvl:
+                rmf.place_forget()
+
+    def entered_buttons_mf(self, menu_frame=None, all_rmf=None, lvl=None):
+
+        self.forget_all_rmf(all_rmf, lvl, self.event.widget)
+        if lvl is 1:
+            menu_frame.place(x=self.event.widget.winfo_x() + self.event.widget.winfo_width() * 1.95,
+                             y=self.event.widget.winfo_y() + self.event.widget.winfo_height() * 3)
+        else:
+            menu_frame.place(x=self.event.widget.winfo_x() + self.event.widget.winfo_width(),
+                       y=self.event.widget.winfo_y() + self.event.widget.winfo_height())
+
     def test(self):
         print("Noice")

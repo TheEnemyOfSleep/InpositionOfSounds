@@ -39,24 +39,67 @@ class Menu(Frame):
 
 
 class MenuFrame(Frame):
+
+    # Create array right menu frame
+    list_rmf = []
+    child_list_rmf = []
+
+    # Add all right menu frame
+    @classmethod
+    def update(cls, lvl, value):
+            cls.list_rmf.append(value)
+        #print(cls.list_rmf)
+
     def __init__(self, master=None, button=None):
         super().__init__()
         self.master = master
-        self.master.update()
-        button.bind('<FocusIn>', lambda event: self.place(x=button.winfo_x(), y=button.winfo_y()+button.winfo_height()-1))
-        button.bind('<FocusOut>', lambda event: self.place_forget())
+        self.configure(bd=1)
+        self.button = button
+        self.lvl = 0
+
+        # if menu button then bottom menu frame
+        if str(button).find(".!menu.") is not -1:
+            self.lvl = 0
+
+            button.bind('<FocusIn>',
+                        lambda event: self.place(x=button.winfo_x(), y=button.winfo_y() + button.winfo_height()-1))
+            button.bind('<FocusOut>', lambda event: self.place_forget())
+
+            self.master.bind('<Button-1>', lambda event: self.place_forget())
+
+        # if menu frame button then right menu frame
+        elif str(button).find('.!menuframe') is not -1:
+
+            if str(button.master.button).find(".!menuframe") is -1:
+                self.lvl = 1
+            else:
+                self.lvl = 2
+
+            self.update(self.lvl, self)
+
+            button.bind('<Enter>',
+                        lambda event, root=self.master:
+                        events.MenuBarEvents(event, root).entered_buttons_mf(
+                            menu_frame=self, all_rmf=self.list_rmf, lvl=button.master.lvl
+                        ))
+            button.bind('<Unmap>', lambda event: self.place_forget())
+
+        #print(str(self) + " -> " + str(self.lvl))
 
     def add_command(self, label="", command=None):
+
         # init style and create command button for MenuBarFrame
         style.Theme().menu_frame_btn_style()
         command_btn = ttk.Button(self, text=str(label), style="MenuFrame.TButton")
-
         # Bind another function on the command button
         if command is not None:
             command_btn.bind('<Button-1>', lambda event: command())
 
+        command_btn.bind('<Enter>', lambda event, root=self.master:
+                                    events.MenuBarEvents(events, root).forget_all_rmf(
+                                        self.list_rmf, self.lvl, command_btn
+                                    ))
+
         # pack command button on the SameMenuBar
         command_btn.pack(side="top", fill="x")
-
-        #
-
+        return command_btn

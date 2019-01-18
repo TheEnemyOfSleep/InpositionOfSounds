@@ -48,6 +48,9 @@ class Theme(ttk.Style):
         self.configure("MenuFrame.TButton", foreground=foreground, relief=relief, font=("Sans Sherif", 8, "bold"),
                              background=background, width=0, height=0, anchor='w')
 
+        self.configure("FocusedMenuFrame.TButton", foreground=foreground, relief=relief, font=("Sans Sherif", 8, "bold"),
+                             background=focus_background, width=0, height=0, anchor='w')
+
         # remove focus ring for button
         self.layout("MenuFrame.TButton", [
             ("Button.focus", None), # Del focus ring
@@ -62,6 +65,7 @@ class Theme(ttk.Style):
 
         # set background focus color for button
         self.map("MenuFrame.TButton", background=[('active', focus_background)])
+        self.map("FocusedMenuFrame.TButton", background=[('active', focus_background)])
 
     def main_frames(self):
         background_image = PhotoImage(file=

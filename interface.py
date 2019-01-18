@@ -22,8 +22,21 @@ class MainMenu:
         edit = menu.add_cascade(label="Edit")
 
         menu_file = MenuBar.MenuFrame(self.master, button=file)
-        menu_file.add_command(label="Create", command=events.MenuBarEvents().test)
-        menu_file.add_command(label="New project")
+        menu_file.add_command(label="New project", command=events.MenuBarEvents().test)
+        menu_edit = MenuBar.MenuFrame(self.master, button=edit)
+        menu_edit.add_command(label="Preferences")
+        create_btn = menu_file.add_command(label="Create")
+        test_btn = menu_file.add_command(label="Test")
+
+        side_menu_frm = MenuBar.MenuFrame(self.master, button=create_btn)
+        new_file = side_menu_frm.add_command(label="New File")
+        side_menu_test = MenuBar.MenuFrame(self.master, button=test_btn)
+        test2_btn = side_menu_test.add_command(label="Test2")
+        side_menu_test.add_command(label="Test Workss")
+
+        double_side_menu_test = MenuBar.MenuFrame(self.master, button=test2_btn)
+        double_side_menu_test.add_command(label="Test3")
+        double_side_menu_test.add_command(label="Test work")
 
     def create_entry(self):
         test = ttk.Entry(self.master)
