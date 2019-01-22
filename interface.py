@@ -23,20 +23,21 @@ class MainMenu:
 
         menu_file = MenuBar.MenuFrame(self.master, button=file)
         menu_file.add_command(label="New project", command=events.MenuBarEvents().test)
+        menu_file.add_separator()
         menu_edit = MenuBar.MenuFrame(self.master, button=edit)
         menu_edit.add_command(label="Preferences")
         create_btn = menu_file.add_command(label="Create")
-        test_btn = menu_file.add_command(label="Test")
+        import_btn = menu_file.add_command(label="Import")
+        export_btn = menu_file.add_command(label="Export")
+        menu_file.add_command(label="Quit", command=self.master.quit)
 
+        # Import right menu frame
+        import_menu_frame = MenuBar.MenuFrame(self.master, button=import_btn)
+        import_menu_frame.add_command(label="Import sound file...")
+        import_menu_frame.add_command(label="Import color palette...")
+        # Create right menu frame
         side_menu_frm = MenuBar.MenuFrame(self.master, button=create_btn)
         new_file = side_menu_frm.add_command(label="New File")
-        side_menu_test = MenuBar.MenuFrame(self.master, button=test_btn)
-        test2_btn = side_menu_test.add_command(label="Test2")
-        side_menu_test.add_command(label="Test Workss")
-
-        double_side_menu_test = MenuBar.MenuFrame(self.master, button=test2_btn)
-        double_side_menu_test.add_command(label="Test3")
-        double_side_menu_test.add_command(label="Test work")
 
     def create_entry(self):
         test = ttk.Entry(self.master)

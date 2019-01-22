@@ -28,7 +28,6 @@ class MenuBarEvents(object):
                 rmf.place_forget()
 
     def entered_buttons_mf(self, menu_frame=None, all_rmf=None, lvl=None):
-
         self.forget_all_rmf(all_rmf, lvl, self.event.widget)
         if lvl is 1:
             menu_frame.place(x=self.event.widget.winfo_x() + self.event.widget.winfo_width() * 1.95,

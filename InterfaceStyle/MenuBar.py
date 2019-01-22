@@ -1,6 +1,7 @@
 # Menubar windows edition
-from tkinter import ttk, Frame
+from tkinter import ttk, Frame, PhotoImage, Image
 from Source import style, events
+import os.path
 
 
 class Menu(Frame):
@@ -84,13 +85,17 @@ class MenuFrame(Frame):
                         ))
             button.bind('<Unmap>', lambda event: self.place_forget())
 
-        #print(str(self) + " -> " + str(self.lvl))
+        # print(str(self) + " -> " + str(self.lvl))
 
     def add_command(self, label="", command=None):
+        # arrow_img = Image(file = './Source/InterfaceElement/bitmap.png'
+        arrow_photo = PhotoImage(file='./Source/InterfaceElement/arrow.png')
 
         # init style and create command button for MenuBarFrame
         style.Theme().menu_frame_btn_style()
         command_btn = ttk.Button(self, text=str(label), style="MenuFrame.TButton")
+        command_btn.config(image=arrow_photo, compound="right")
+        command_btn.image = arrow_photo
         # Bind another function on the command button
         if command is not None:
             command_btn.bind('<Button-1>', lambda event: command())
@@ -103,3 +108,9 @@ class MenuFrame(Frame):
         # pack command button on the SameMenuBar
         command_btn.pack(side="top", fill="x")
         return command_btn
+
+    def add_separator(self):
+        separator_mf = ttk.Separator(self)
+        style.Theme().menu_separate_style(background=style.Theme().get_style_dict()['bg_separator'])
+        separator_mf.config(style="Menu.TSeparator")
+        separator_mf.pack(side="top", fill="x")
