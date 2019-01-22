@@ -1,5 +1,5 @@
 # Menubar windows edition
-from tkinter import ttk, Frame, PhotoImage, Image
+from tkinter import ttk, Frame, PhotoImage
 from Source import style, events
 import os.path
 
@@ -97,6 +97,7 @@ class MenuFrame(Frame):
         command_btn.config(image=arrow_photo, compound="right")
         command_btn.image = arrow_photo
         # Bind another function on the command button
+        # test github
         if command is not None:
             command_btn.bind('<Button-1>', lambda event: command())
 
