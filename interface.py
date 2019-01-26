@@ -1,70 +1,82 @@
-from tkinter import ttk, Menu
-from Source import style, sql, events
-from InterfaceStyle import MenuBar
+import os
+from PyQt5.QtWidgets import QWidget, QMenuBar, QAction, qApp, QComboBox, QVBoxLayout
+from source import style, sql, events
 
 'Main class for UI'
 
 
-class MainMenu:
+class MainInterface(QWidget):
 
     def __init__(self, master):
+        super(MainInterface, self).__init__(master)
         self.master = master
-        self.create_menu()
-        'Import modules (style.py, sql.py) by path'
 
-        self.style_dict = style.Theme().get_style_dict()
+        # Init all widgets
+        self.init_menu_bar()
 
-    def create_menu(self):
+        # Init styles for all widgets
+        self.init_styles()
 
-        menu = MenuBar.Menu(self.master)
-        menu.to_window()
-        file = menu.add_cascade(label="File")
-        edit = menu.add_cascade(label="Edit")
+    def init_styles(self):
+        ssh = open('./interface-stylesheets/bluecyan.css', 'r')
 
-        menu_file = MenuBar.MenuFrame(self.master, button=file)
-        menu_file.add_command(label="New project", command=events.MenuBarEvents().test)
-        menu_file.add_separator()
-        menu_edit = MenuBar.MenuFrame(self.master, button=edit)
-        menu_edit.add_command(label="Preferences")
-        create_btn = menu_file.add_command(label="Create")
-        import_btn = menu_file.add_command(label="Import")
-        export_btn = menu_file.add_command(label="Export")
-        menu_file.add_command(label="Quit", command=self.master.quit)
+        self.master.setStyleSheet(ssh.read())
 
-        # Import right menu frame
-        import_menu_frame = MenuBar.MenuFrame(self.master, button=import_btn)
-        import_menu_frame.add_command(label="Import sound file...")
-        import_menu_frame.add_command(label="Import color palette...")
-        # Create right menu frame
-        side_menu_frm = MenuBar.MenuFrame(self.master, button=create_btn)
-        new_file = side_menu_frm.add_command(label="New File")
+    def test(self):
+        print("Noice")
 
-    def create_entry(self):
-        test = ttk.Entry(self.master)
-        test.pack()
-        test.insert(0, "Label")
+    def init_menu_bar(self):
 
-
-
-    """def create_menu(self):
-        # Add default parameter for working
-        menu_dict = {'relief': "flat", 'bg_menu': "#202533", 'fg_menu': "#a4a4a5"}
+        menu_bar_events = events.MenuBarEvents(self.master)
 
         # Create menu bar
-        menu = Menu(self.master, background='#000099', foreground='white',
-                    activebackground='#004c99', activeforeground='white')
-        print(self.master.config())
-        self.master.config(menu=menu)
+        self.bar = self.master.menuBar()
 
-        file_menu = Menu(menu, tearoff=0)
-        file_menu.configure(bg=menu_dict['bg_menu'], relief=menu_dict['relief'], fg=menu_dict['fg_menu'],
-                            borderwidth=0)
+        # Create root menus
+        file = self.bar.addMenu('File')
 
-        menu.add_cascade(label="File", menu=file_menu)
+        # Create action to menus
+        new_project_act = QAction('New Project', self.master)
+        new_project_act.setShortcut('Ctrl+N')
+        open_project_act = QAction('Open...', self.master)
 
-        file_menu.add_command(label="Create config")
-        file_menu.add_command(label="Open config")
-        file_menu.add_command(label="Load config")
-        file_menu.add_separator()
-        file_menu.add_command(label="Exit", command=self.master.quit)"""
+        fast_save_projcet_act = QAction('Save', self.master)
+        fast_save_projcet_act.setShortcut('Ctrl+S')
+        full_save_project_act = QAction('Save As...', self.master)
+        full_save_project_act.setShortcut('Ctrl+Shift+S')
 
+        pref_act = QAction('Preferences...', self.master)
+        load_factory_act = QAction('Load Factory Settings', self.master)
+
+        quit_act = QAction('Quit', self.master)
+        quit_act.setShortcut('Ctrl+Q')
+
+        # Add actions to menus
+        file.addAction(new_project_act)
+        file.addAction(open_project_act)
+
+        file.addSeparator()
+
+        file.addAction(fast_save_projcet_act)
+        file.addAction(full_save_project_act)
+
+        file.addSeparator()
+
+        file.addAction(pref_act)
+        file.addAction(load_factory_act)
+
+        file.addSeparator()
+
+        file.addAction(quit_act)
+
+        # Menu bar events
+        quit_act.triggered.connect(lambda: menu_bar_events.quit_trigger())
+
+    def init_main_interface_keyboard(self):
+
+        main_box_layout = QVBoxLayout(self)
+
+        switch_main_interface_cmb = QComboBox()
+        switch_main_interface_cmb.addItems("Keyboard", "NumPad")
+        main_box_layout.addWidget(switch_main_interface_cmb)
+        self.setLayout(main_box_layout)

@@ -1,21 +1,25 @@
 from tkinter import Tk
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp
 import interface
 
 
-class Application(Tk):
+class Application(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("ImpositionsOfSounds")
+
     def init_ui(self):
         # Create ui form for working and manipulating program
-        interface.MainMenu(self)
+        form_widget = interface.MainInterface(self)
+        self.setCentralWidget(form_widget)
 
-    def sel_win_style(self):
-        # Style parameters for main window
-        root_dict = {'relief': "flat", 'bg_window': "#202533"}
-        self.configure(background=root_dict['bg_window'], relief=root_dict['relief'])
-
-
+app = QApplication(sys.argv)
 root = Application()
 root.init_ui()
-root.sel_win_style()
-root.mainloop()
+root.show()
+sys.exit(app.exec_())
 
 
