@@ -1,24 +1,27 @@
 from tkinter import Tk
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp
+from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp, QHBoxLayout, QWidget
 import interface
 
+__author__ = "TheEnemyOfSleep"
+__version__ = "0.0.2"
 
 class Application(QMainWindow):
 
     def __init__(self):
-        super().__init__()
+        super(Application, self).__init__()
+        self.form_widget = interface.MainInterface(self)
+        self.init_ui()
 
-        self.setWindowTitle("ImpositionsOfSounds")
+        self.setWindowTitle("Sonic")
 
     def init_ui(self):
         # Create ui form for working and manipulating program
-        form_widget = interface.MainInterface(self)
-        self.setCentralWidget(form_widget)
+        self.setCentralWidget(self.form_widget)
+
 
 app = QApplication(sys.argv)
 root = Application()
-root.init_ui()
 root.show()
 sys.exit(app.exec_())
 
