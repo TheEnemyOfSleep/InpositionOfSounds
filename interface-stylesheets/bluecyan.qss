@@ -1,0 +1,160 @@
+/* set style parameters for MainWindow */
+QMainWindow {
+    background-color: #202533
+}
+
+/* set style fonts for AllWidgets */
+QMenuBar, QMenu, QHeaderView::section {
+    font-size: 8pt; font-family: Ubuntu;
+}
+
+/* set style color for all widget buttons */
+QMenuBar::item, QMenu, QTabBar::tab {
+    color: #ffffff;
+    background: #202533;
+    color: #ffffff;
+}
+
+QLabel#NameLblList {
+    color: #ffffff;
+    background: none;
+    font-size: 10pt; font-family: Ubuntu;
+}
+
+QLabel#HotkeyLblList {
+    color: #ffffff;
+    background: none;
+    font-size: 12pt; font-family: Ubuntu;
+}
+
+QMenuBar::item::pressed, QTabBar::tab:selected, QMenu::item:selected {
+    background: #16a4b5;
+}
+
+/* set another style parameters for QMenu */
+QMenuBar {
+    border: 2px solid #202533;
+    border-bottom-color: #292f42;
+}
+
+QMenuBar::item {
+    padding: 1px;
+}
+
+QMenu {
+    border: 1px inset #292f42;
+}
+
+QMenu::separator {
+    height: 2px;
+    background: #292f42;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+
+/* set another style parameters for QTabWidget and QTabBar */
+QTabWidget::pane { /* The tab widget frame */
+    border: 2px solid #181b26;
+}
+
+QTabBar::tab {
+    font-size: 12pt; font-family: Ubuntu;
+    background: #181b26;
+    border: 2px solid #181b26;
+    border-bottom-color: #202533;
+    min-width: 16ex;
+    min-height: 4ex;
+    padding: 3px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+/* set another style parameters for QTableWidget */
+QTableWidget, QWidget#listWidget {
+    border: 0px;
+    background: #181b26;
+}
+
+QHeaderView::section {
+    font-size: 15px;
+    font-weight: bold;
+    background: #181b26;
+    color: white;
+    padding-left: 4px;
+    padding: 1px;
+    border: 1px solid #202533;
+}
+
+QTableView {
+    color: #ffffff;
+    font-size: 8pt; font-family: Ubuntu;
+    gridline-color: #181b26;
+    selection-background-color: #202533;
+}
+
+/* set another style parameters for ScrollBar */
+
+QScrollBar:horizontal {
+    border: 2px solid #292f42;
+    background: #16a4b5;
+    height: 15px;
+    margin: 0px 20px 0px 20px;
+}
+QScrollBar::handle:horizontal {
+    background: #181b26;
+    min-width: 20px;
+}
+QScrollBar::add-line:horizontal {
+    border: 2px solid #292f42;
+    background: #16a4b5;
+    width: 20px;
+    subcontrol-position: right;
+    subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+    border: 2px solid #292f42;
+    background: #16a4b5;
+    width: 20px;
+    subcontrol-position: left;
+    subcontrol-origin: margin;
+}
+
+QScrollBar:left-arrow:horizontal, QScrollBar::right-arrow:horizontal {
+    border: 2px solid #292f42;
+    width: 3px;
+    height: 3px;
+    background: white;
+}
+
+QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+}
+
+/* set another style parameters for Slider */
+
+QSlider::groove:horizontal {
+    border: 1px solid #292f42;
+    height: 28px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: none;
+}
+
+QSlider::handle:horizontal {
+    background: none;
+    width: 4px;
+}
+
+QSlider::sub-page:horizontal {
+    background: #16a4b5;
+}
+
+/* set another style parameters for SSBtn */
+
+QPushButton#SoundSettingsButton {
+    background:  none;
+    border: 0px
+}
+
+QPushButton::pressed#SoundSettingsButton {
+    background:  #16a4b5;
+}

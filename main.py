@@ -1,6 +1,6 @@
 from tkinter import Tk
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction, qApp, QHBoxLayout, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow
 import interface
 
 __author__ = "TheEnemyOfSleep"
@@ -22,6 +22,7 @@ class Application(QMainWindow):
 
 app = QApplication(sys.argv)
 root = Application()
+root.setGeometry(app.desktop().screenGeometry().width()/3.2, app.desktop().screenGeometry().height()/4, 800, 500)
 root.show()
 sys.exit(app.exec_())
 
