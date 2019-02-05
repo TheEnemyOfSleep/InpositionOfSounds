@@ -1,13 +1,11 @@
 import os
 from PyQt5.QtWidgets import QWidget, QAction, QTabWidget, QTableWidget, QHBoxLayout, QVBoxLayout,\
-    QHeaderView, QLabel, QSlider, QPushButton, QSizePolicy, QGridLayout, QFrame, QTableView
-
-from PyQt5.QtGui import QFontDatabase, QIcon
+     QGridLayout, QHeaderView, QLabel, QSlider, QPushButton, QSizePolicy, QAbstractItemView, QGraphicsBlurEffect
+from PyQt5.QtGui import QFontDatabase, QIcon, QPixmap
 from PyQt5.QtCore import *
-from source import style, sql, events
+from source import events
 
 'Main class for UI'
-
 
 class MainInterface(QWidget):
 
@@ -85,6 +83,7 @@ class MainInterface(QWidget):
         self.init_list_widget()
 
         self.tile_widget = QWidget()
+        self.init_tile_widget()
 
         main_vbl = QVBoxLayout()
 
@@ -98,13 +97,48 @@ class MainInterface(QWidget):
         self.show()
 
     def init_list_widget(self):
+        list_events = events.ListInterfaceEvent(self.master)
+
         list_vbl = QVBoxLayout()
+
+        master_btn_frame = QWidget()
+        master_btn_frame.setObjectName('MasterBtnsList')
         master_btn_hbl = QHBoxLayout()
+
+        # Add master btns
+        add_sound_pbtn = QPushButton()
+        add_sound_pbtn.setObjectName('ListBtn')
+        add_sound_pbtn.setText("Add new Sound...")
+
+        play_sound_pbtn = QPushButton()
+        play_sound_pbtn.setObjectName('PlayBtns')
+        play_sound_pbtn.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        play_sound_pbtn.setIcon(QIcon('./interface-stylesheets/interface-element/play.gif'))
+        play_sound_pbtn.clicked.connect(lambda: list_events.switch_play_pbtn(play_sound_pbtn))
+
+        begin_sound_pbtn = QPushButton()
+        begin_sound_pbtn.setObjectName('PlayBtns')
+        begin_sound_pbtn.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        begin_sound_pbtn.setIcon(QIcon('./interface-stylesheets/interface-element/end.gif'))
+
+        end_sound_pbtn = QPushButton()
+        end_sound_pbtn.setObjectName('PlayBtns')
+        end_sound_pbtn.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        end_sound_pbtn.setIcon(QIcon('./interface-stylesheets/interface-element/begin.gif'))
+
+        m_settings_sound_pbtn = QPushButton()
+        m_settings_sound_pbtn.setObjectName('ListBtn')
+        m_settings_sound_pbtn.setText('Settings')
 
         list_table = QTableWidget()
         list_table.setColumnCount(4)
-        list_table.setRowCount(5)
-        list_table.setSelectionBehavior(QTableView.SelectRows)
+        list_table.setRowCount(1)
+
+        # Set selections for single row and all columns and delete dotted select row
+        list_table.setSelectionBehavior(QAbstractItemView.SelectRows)
+        list_table.setSelectionMode(QAbstractItemView.SingleSelection)
+        list_table.setFocusPolicy(Qt.NoFocus)
+
         # Set headers parameter
         list_table.setHorizontalHeaderLabels(['Name', 'Sound Volume', 'Key', 'Settings'])
         list_table.verticalHeader().setVisible(False)
@@ -114,14 +148,15 @@ class MainInterface(QWidget):
         # Resize header table widget
         list_header = list_table.horizontalHeader()
         list_header.setSectionResizeMode(0, QHeaderView.Stretch)
-        list_header.setSectionResizeMode(1, QHeaderView.Fixed)
+        list_header.setSectionResizeMode(1, QHeaderView.Stretch)
         list_header.setSectionResizeMode(2, QHeaderView.Fixed)
         list_header.setSectionResizeMode(3, QHeaderView.Fixed)
 
         list_header.resizeSection(1, 250)
         list_header.resizeSection(2, 120)
-        list_header.resizeSection(3, 100)
+        list_header.resizeSection(3, 80)
 
+        """Start test elements"""
         # Name of sounds
         label_name = QLabel()
         label_name.setObjectName('NameLblList')
@@ -147,16 +182,96 @@ class MainInterface(QWidget):
         settings_sound_pbtn = QPushButton()
         settings_sound_pbtn.setObjectName("SoundSettingsButton")
         settings_sound_pbtn.setIcon(QIcon('./interface-stylesheets/interface-element/gear_night.png'))
-        settings_sound_pbtn.setIconSize(QSize(24, 24))
         settings_sound_pbtn.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+        # Set widget in the table widget
 
         list_table.setCellWidget(0, 0, label_name)
         list_table.setCellWidget(0, 1, master_volumme)
         list_table.setCellWidget(0, 2, label_hotkey)
         list_table.setCellWidget(0, 3, settings_sound_pbtn)
+        """End test elements"""
+
+        # Set layouts and add widgets
+        master_btn_hbl.addWidget(add_sound_pbtn)
+        master_btn_hbl.addWidget(begin_sound_pbtn)
+        master_btn_hbl.addWidget(play_sound_pbtn)
+        master_btn_hbl.addWidget(end_sound_pbtn)
+        master_btn_hbl.addWidget(m_settings_sound_pbtn)
+
+
+        master_btn_frame.setLayout(master_btn_hbl)
 
         list_vbl.addWidget(list_table)
+        list_vbl.addWidget(master_btn_frame)
+
         self.list_widget.setLayout(list_vbl)
 
     def init_tile_widget(self):
-        pass
+        master_layout = QGridLayout()
+        nums = 9
+        text_labels_list = ['PGUP', 8, 'HOME', 6, None, 4, 'PGDN', 2, 'END']
+        num_pads_list = []
+        i = 0
+        for y in range(0, 3):
+            for x in range(3, 0, -1):
+                num_pad = NumPadWidget(nums)
+
+                num_pads_list.append(num_pad)
+                num_pad.set_text_lbl_icons(text_labels_list[i])
+
+                master_layout.addWidget(num_pad.return_widget(), y, x)
+
+                nums -= 1
+                i += 1
+
+        del i, nums, text_labels_list
+
+        self.tile_widget.setLayout(master_layout)
+
+
+class NumPadWidget():
+    def __init__(self, nums):
+        super().__init__()
+        self.widget = QWidget()
+        self.widget.setObjectName('NumPad')
+        self.widget.enterEvent = lambda event: self.enterEvent()
+
+        elements_hbl = QVBoxLayout()
+
+        self.top_lbl = QLabel()
+        self.top_lbl.setText(str(nums))
+        self.top_lbl.setObjectName('NumPad')
+        self.top_lbl.setAlignment(Qt.AlignCenter)
+
+        self.bottom_lbl = QLabel()
+        self.bottom_lbl.setObjectName('NumPad')
+        self.bottom_lbl.setAlignment(Qt.AlignCenter)
+
+        elements_hbl.addWidget(self.top_lbl, 50)
+        elements_hbl.addWidget(self.bottom_lbl, 50)
+
+        self.widget.setLayout(elements_hbl)
+
+    def set_text_lbl_icons(self, bottom_text_lbl):
+
+        if type(bottom_text_lbl) is str:
+            self.bottom_lbl.setText(bottom_text_lbl)
+        elif bottom_text_lbl is not None:
+            pixmap_lbl = QPixmap('./interface-stylesheets/interface-element/%d_numpad_night.png' % bottom_text_lbl)
+            pixmap_lbl.scaled(32, 32, Qt.KeepAspectRatio, Qt.FastTransformation)
+            self.bottom_lbl.setPixmap(pixmap_lbl)
+
+    def enterEvent(self):
+        blur_widget = QGraphicsBlurEffect()
+        blur_widget.setBlurRadius(2)
+        self.widget.setGraphicsEffect(blur_widget)
+
+    def return_top_lbl(self):
+        return self.top_lbl
+
+    def return_bottom_lbl(self):
+        return self.bottom_lbl
+
+    def return_widget(self):
+        return self.widget

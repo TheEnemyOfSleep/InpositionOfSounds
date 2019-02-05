@@ -158,3 +158,35 @@ QPushButton#SoundSettingsButton {
 QPushButton::pressed#SoundSettingsButton {
     background:  #16a4b5;
 }
+
+/* set style parameters for ListBtn and MasterBtnsList*/
+QFrame#MasterBtnsList{
+    margin: 0px;
+    padding: 0px;
+}
+QPushButton#ListBtn, QPushButton#PlayBtns {
+    color: #ffffff;
+    font-size: 12pt; font-family: Ubuntu;
+    padding: 4px;
+    background:  #202533;
+    border: 0px
+}
+QPushButton#PlayBtns {
+    width: 24px;
+    height: 24px;
+}
+QPushButton::pressed#ListBtn, QPushButton::pressed#PlayBtns{
+    background:  #16a4b5;
+
+}
+
+/* set style parameters for NumPad elements*/
+
+QWidget#NumPad {
+     background: #181b26;
+}
+
+QLabel#NumPad {
+    font-size: 24pt; font-family: Ubuntu;
+    color: #ffffff;
+}
