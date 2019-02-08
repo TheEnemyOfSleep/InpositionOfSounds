@@ -1,6 +1,7 @@
 import os
 from PyQt5.QtWidgets import QWidget, QAction, QTabWidget, QTableWidget, QHBoxLayout, QVBoxLayout,\
-     QGridLayout, QHeaderView, QLabel, QSlider, QPushButton, QSizePolicy, QAbstractItemView, QGraphicsBlurEffect
+     QGridLayout, QHeaderView, QLabel, QSlider, QPushButton, QSizePolicy, QAbstractItemView, QGraphicsBlurEffect,\
+     QGraphicsOpacityEffect, QSpacerItem
 from PyQt5.QtGui import QFontDatabase, QIcon, QPixmap
 from PyQt5.QtCore import *
 from source import events
@@ -130,6 +131,10 @@ class MainInterface(QWidget):
         m_settings_sound_pbtn.setObjectName('ListBtn')
         m_settings_sound_pbtn.setText('Settings')
 
+        delete_sound_pbtn = QPushButton()
+        delete_sound_pbtn.setObjectName('ListBtn')
+        delete_sound_pbtn.setText('Remove')
+
         list_table = QTableWidget()
         list_table.setColumnCount(4)
         list_table.setRowCount(1)
@@ -193,11 +198,12 @@ class MainInterface(QWidget):
         """End test elements"""
 
         # Set layouts and add widgets
-        master_btn_hbl.addWidget(add_sound_pbtn)
+        master_btn_hbl.addWidget(add_sound_pbtn, 50)
         master_btn_hbl.addWidget(begin_sound_pbtn)
         master_btn_hbl.addWidget(play_sound_pbtn)
         master_btn_hbl.addWidget(end_sound_pbtn)
-        master_btn_hbl.addWidget(m_settings_sound_pbtn)
+        master_btn_hbl.addWidget(m_settings_sound_pbtn, 25)
+        master_btn_hbl.addWidget(delete_sound_pbtn, 25)
 
 
         master_btn_frame.setLayout(master_btn_hbl)
@@ -229,22 +235,43 @@ class MainInterface(QWidget):
 
         self.tile_widget.setLayout(master_layout)
 
-
-class NumPadWidget():
+# Num pad widget and buttons class
+class NumPadWidget(object):
     def __init__(self, nums):
         super().__init__()
+        # Init main widget for master-controlling NumPad
         self.widget = QWidget()
         self.widget.setObjectName('NumPad')
-        self.widget.enterEvent = lambda event: self.enterEvent()
+        # Create blur effect for widgets
+        self.blur_top_lbl = QGraphicsBlurEffect()
+        self.blur_top_lbl.setBlurRadius(0.0)
+
+        self.blur_bottom_lbl = QGraphicsBlurEffect()
+        self.blur_bottom_lbl.setBlurRadius(0.0)
+
+        self.opacity_effect = QGraphicsOpacityEffect()
+        self.opacity_effect.setOpacity(0.0)
+
+        # Create animation classes
+        self.blur_anim = QVariantAnimation()
+        self.blur_anim.setEasingCurve(QEasingCurve.InOutQuad)
+        self.blur_anim.valueChanged.connect(self.play_animation)
+
+        self.opacity_anim = QPropertyAnimation(self.opacity_effect, b'opacity')
+        self.opacity_anim.setEasingCurve(QEasingCurve.InOutQuad)
 
         elements_hbl = QVBoxLayout()
 
+        # Top label of NumPad
         self.top_lbl = QLabel()
+        self.top_lbl.setGraphicsEffect(self.blur_top_lbl)
         self.top_lbl.setText(str(nums))
         self.top_lbl.setObjectName('NumPad')
         self.top_lbl.setAlignment(Qt.AlignCenter)
 
+        # Bottom label of NumPad
         self.bottom_lbl = QLabel()
+        self.bottom_lbl.setGraphicsEffect(self.blur_bottom_lbl)
         self.bottom_lbl.setObjectName('NumPad')
         self.bottom_lbl.setAlignment(Qt.AlignCenter)
 
@@ -252,6 +279,52 @@ class NumPadWidget():
         elements_hbl.addWidget(self.bottom_lbl, 50)
 
         self.widget.setLayout(elements_hbl)
+
+        self.create_master_numpad()
+
+        # Events and signals widget
+        self.widget.enterEvent = lambda event: self.enterEvent()
+        self.widget.leaveEvent = lambda event: self.leaveEvent()
+
+    def create_master_numpad(self):
+        self.overlay_widget = QWidget(self.widget)
+        self.overlay_widget.setObjectName("OverlayNumPadWidget")
+
+        sound_name_lbl = QLabel(self.overlay_widget)
+        sound_name_lbl.setObjectName('NumPadName')
+        sound_name_lbl.setAlignment(Qt.AlignCenter)
+        sound_name_lbl.setText('Name of Sound')
+
+        numpad_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        settings_numpad_pbtn = QPushButton(self.overlay_widget)
+        settings_numpad_pbtn.setObjectName('NumPad')
+        settings_numpad_pbtn.setText('Settings')
+
+        add_numpad_pbtn = QPushButton(self.overlay_widget)
+        add_numpad_pbtn.setObjectName('NumPad')
+        add_numpad_pbtn.setText('Add Sound')
+
+        remove_numpad_pbtn = QPushButton(self.overlay_widget)
+        remove_numpad_pbtn.setObjectName('NumPad')
+        remove_numpad_pbtn.setText('Remove Sound')
+
+        overlay_pbtn_hbl = QVBoxLayout()
+        overlay_pbtn_hbl.setContentsMargins(0, 0, 0, 0)
+        overlay_pbtn_hbl.setSpacing(0)
+        overlay_pbtn_hbl.setAlignment(Qt.AlignBottom)
+
+        overlay_pbtn_hbl.addWidget(sound_name_lbl)
+        overlay_pbtn_hbl.addItem(numpad_spacer)
+        overlay_pbtn_hbl.addWidget(add_numpad_pbtn)
+        overlay_pbtn_hbl.addWidget(remove_numpad_pbtn)
+        overlay_pbtn_hbl.addWidget(settings_numpad_pbtn)
+
+
+        self.overlay_widget.setLayout(overlay_pbtn_hbl)
+        self.widget.resizeEvent = lambda event: self.resizeEvent()
+        settings_numpad_pbtn.setGeometry(0, 0, 200, 100)
+        self.overlay_widget.setGraphicsEffect(self.opacity_effect)
 
     def set_text_lbl_icons(self, bottom_text_lbl):
 
@@ -262,10 +335,40 @@ class NumPadWidget():
             pixmap_lbl.scaled(32, 32, Qt.KeepAspectRatio, Qt.FastTransformation)
             self.bottom_lbl.setPixmap(pixmap_lbl)
 
+    # If mouse pointer on the widget then play animate widget buttons and blur master widget
     def enterEvent(self):
-        blur_widget = QGraphicsBlurEffect()
-        blur_widget.setBlurRadius(2)
-        self.widget.setGraphicsEffect(blur_widget)
+        self.blur_anim.setDirection(QPropertyAnimation.Forward)
+        self.blur_anim.setDuration(500)
+        self.blur_anim.setStartValue(self.blur_top_lbl.blurRadius())
+        self.blur_anim.setEndValue(8.0)
+        self.blur_anim.start()
+
+        self.opacity_anim.setDirection(QPropertyAnimation.Forward)
+        self.opacity_anim.setDuration(500)
+        self.opacity_anim.setStartValue(self.opacity_effect.opacity())
+        self.opacity_anim.setEndValue(0.6)
+        self.opacity_anim.start()
+
+    # If mouse pointer out the widget then play reverse animate widget buttons and unblur master widget
+    def leaveEvent(self):
+        self.blur_anim.setDirection(QPropertyAnimation.Backward)
+        self.blur_anim.setDuration(500)
+        self.blur_anim.setStartValue(0.0)
+        self.blur_anim.setEndValue(self.blur_top_lbl.blurRadius())
+        self.blur_anim.start()
+
+        self.opacity_anim.setDirection(QPropertyAnimation.Backward)
+        self.opacity_anim.setDuration(500)
+        self.opacity_anim.setStartValue(0.0)
+        self.opacity_anim.setEndValue(self.opacity_effect.opacity())
+        self.opacity_anim.start()
+
+    def play_animation(self):
+        self.blur_top_lbl.setBlurRadius(self.blur_anim.currentValue())
+        self.blur_bottom_lbl.setBlurRadius(self.blur_anim.currentValue())
+
+    def resizeEvent(self):
+        self.overlay_widget.setGeometry(0, 0, self.widget.geometry().width(), self.widget.geometry().height())
 
     def return_top_lbl(self):
         return self.top_lbl

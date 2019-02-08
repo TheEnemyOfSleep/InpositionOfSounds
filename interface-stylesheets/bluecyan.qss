@@ -182,6 +182,11 @@ QPushButton::pressed#ListBtn, QPushButton::pressed#PlayBtns{
 
 /* set style parameters for NumPad elements*/
 
+QWidget#OverlayNumPadWidget {
+     background-color: rgba(255, 255, 255, 80);
+     background: #c8c8c8;
+}
+
 QWidget#NumPad {
      background: #181b26;
 }
@@ -189,4 +194,24 @@ QWidget#NumPad {
 QLabel#NumPad {
     font-size: 24pt; font-family: Ubuntu;
     color: #ffffff;
+}
+
+QLabel#NumPadName {
+    font-size: 18pt; font-family: Ubuntu;
+    color: #1e1e1e;
+}
+
+QPushButton#NumPad {
+    font-size: 14pt; font-family: Ubuntu;
+    border: 0;
+    background:  #c8c8c8;
+    color: #1e1e1e;
+}
+
+QPushButton:hover#NumPad {
+    background:  #8c8c8c;
+}
+
+QPushButton:pressed#NumPad {
+    background:  #646464;
 }
