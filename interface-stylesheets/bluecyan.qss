@@ -2,29 +2,38 @@
 QMainWindow {
     background-color: #202533
 }
+/* set font-family */
+QLabel#NameLblList, QMenuBar, QMenu, QHeaderView::section,
+QLabel#HotkeyLblList, QTabBar::tab, QTableView, QPushButton#ListBtn,
+QPushButton#PlayBtns, QLabel#NumPad, QLabel#NumPadName, QPushButton#NumPad,
+QLabel#SettingsWidget, QLabel#SoundSettings, QPushButton#SettingsWidget, QLabel#SettingsWidgetSub {
+    font-family: Ubuntu;
+}
+QWidget#ChildWindows {
+    background-color: #202533
+}
 
 /* set style fonts for AllWidgets */
 QMenuBar, QMenu, QHeaderView::section {
-    font-size: 8pt; font-family: Ubuntu;
+    font-size: 8pt;
 }
 
 /* set style color for all widget buttons */
-QMenuBar::item, QMenu, QTabBar::tab {
+QMenuBar::item, QMenu, QTabBar::tab{
     color: #ffffff;
     background: #202533;
-    color: #ffffff;
 }
 
 QLabel#NameLblList {
     color: #ffffff;
     background: none;
-    font-size: 10pt; font-family: Ubuntu;
+    font-size: 10pt;
 }
 
 QLabel#HotkeyLblList {
     color: #ffffff;
     background: none;
-    font-size: 12pt; font-family: Ubuntu;
+    font-size: 12pt;
 }
 
 QMenuBar::item::pressed, QTabBar::tab:selected, QMenu::item:selected {
@@ -58,7 +67,7 @@ QTabWidget::pane { /* The tab widget frame */
 }
 
 QTabBar::tab {
-    font-size: 12pt; font-family: Ubuntu;
+    font-size: 12pt;
     background: #181b26;
     border: 2px solid #181b26;
     border-bottom-color: #202533;
@@ -87,7 +96,7 @@ QHeaderView::section {
 
 QTableView {
     color: #ffffff;
-    font-size: 8pt; font-family: Ubuntu;
+    font-size: 8pt;
     gridline-color: #181b26;
     selection-background-color: #202533;
 }
@@ -133,18 +142,18 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 
 /* set another style parameters for Slider */
 
-QSlider::groove:horizontal {
+QSlider::groove:horizontal#SoundSettings {
     border: 1px solid #292f42;
     height: 28px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
     background: none;
 }
 
-QSlider::handle:horizontal {
+QSlider::handle:horizontal#SoundSettings {
     background: none;
     width: 4px;
 }
 
-QSlider::sub-page:horizontal {
+QSlider::sub-page:horizontal#SoundSettings {
     background: #16a4b5;
 }
 
@@ -166,7 +175,7 @@ QFrame#MasterBtnsList{
 }
 QPushButton#ListBtn, QPushButton#PlayBtns {
     color: #ffffff;
-    font-size: 12pt; font-family: Ubuntu;
+    font-size: 12pt;
     padding: 4px;
     background:  #202533;
     border: 0px
@@ -192,17 +201,17 @@ QWidget#NumPad {
 }
 
 QLabel#NumPad {
-    font-size: 24pt; font-family: Ubuntu;
+    font-size: 24pt;
     color: #ffffff;
 }
 
 QLabel#NumPadName {
-    font-size: 18pt; font-family: Ubuntu;
+    font-size: 18pt;
     color: #1e1e1e;
 }
 
 QPushButton#NumPad {
-    font-size: 14pt; font-family: Ubuntu;
+    font-size: 14pt;
     border: 0;
     background:  #c8c8c8;
     color: #1e1e1e;
@@ -214,4 +223,86 @@ QPushButton:hover#NumPad {
 
 QPushButton:pressed#NumPad {
     background:  #646464;
+}
+
+/* set styles for all Settings Widgets */
+
+QLabel#SettingsWidget {
+    color: #ffffff;
+    font-size: 24pt;
+}
+
+QLabel#SoundSettings {
+    color: #ffffff;
+    font-size: 12pt;
+    background: #202533;
+}
+
+QPushButton#SettingsWidget {
+    padding: 5px, 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 14pt;
+    border: 0;
+    background:  #202533;
+    color: #ffffff;
+}
+
+QPushButton:hover#SettingsWidget {
+    background:  #262B39
+}
+
+QPushButton:pressed#SettingsWidget {
+    background:  #16a4b5;
+}
+
+QSlider::groove:horizontal#SettingsWidget {
+    border: 1px solid #999999;
+    height: 12px; /* the groove expands to the size of the slider by default. by giving it a height, it has a fixed size */
+    background: #c8c8c8;
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal#SettingsWidget {
+    background: #16a4b5;
+    border: 1px solid #0B6172;
+    width: 24px;
+    margin: -2px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+}
+
+QLabel#SettingsWidgetSub {
+    font-size: 24px;
+    border: 0px;
+    background: #202533;
+    color: #ffffff;
+}
+
+QPushButton#SettingsWidgetIgmActive {
+    width: 30px;
+    height: 30px;
+    font-size: 14pt;
+    border: 2px solid #262B39;
+    background:  #16a4b5;
+    color: #ffffff;
+}
+
+QPushButton#SettingsWidgetIgm {
+    width: 30px;
+    height: 30px;
+    font-size: 14pt;
+    border: 2px solid #262B39;
+    background:  #202533;
+    color: #ffffff;
+}
+
+QPushButton:hover#SettingsWidgetIgm {
+    background:  #262B39;
+}
+
+QPushButton:pressed#SettingsWidgetIgm {
+    background:  #16a4b5;
+}
+
+QWidget#SettingsWidget {
+    background: #181b26;
 }

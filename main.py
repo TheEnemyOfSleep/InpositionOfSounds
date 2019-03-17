@@ -1,10 +1,12 @@
-from tkinter import Tk
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
-import interface
 
+import interface
+import contextlib
 __author__ = "TheEnemyOfSleep"
-__version__ = "0.0.2"
+__version__ = "0.0.1"
+
+
 
 class Application(QMainWindow):
 
@@ -14,6 +16,8 @@ class Application(QMainWindow):
         self.init_ui()
 
         self.setWindowTitle("Sonic")
+
+        #TileWindowSettings(self)
 
     def init_ui(self):
         # Create ui form for working and manipulating program
@@ -25,5 +29,3 @@ root = Application()
 root.setGeometry(app.desktop().screenGeometry().width()/3.2, app.desktop().screenGeometry().height()/4, 800, 500)
 root.show()
 sys.exit(app.exec_())
-
-
