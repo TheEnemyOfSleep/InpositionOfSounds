@@ -9,8 +9,6 @@ from PyQt5.QtCore import *
 from source import events
 
 'Main class for UI'
-
-
 class MainInterface(QWidget):
 
     def __init__(self, parent):
@@ -29,7 +27,7 @@ class MainInterface(QWidget):
 
     def init_styles(self):
         # install custom fonts
-        QFontDatabase.addApplicationFont('./interface-stylesheets/Fonts/Ubuntu-B.ttf')
+        QFontDatabase.addApplicationFont('./interface-stylesheets/interface-element/Fonts/Ubuntu-B.ttf')
 
         ssh = open('./interface-stylesheets/bluecyan.qss', 'r')
         self.master.setStyleSheet(ssh.read())

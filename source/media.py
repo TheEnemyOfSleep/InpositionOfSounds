@@ -2,7 +2,6 @@ import threading
 import queue
 import sys
 
-
 class FileSound(object):
     buffersize = 20
     blocksize = 2048
@@ -35,14 +34,14 @@ class FileSound(object):
             import numpy
             assert numpy
 
-            with sf.SoundFile("C:/Users/turch/Desktop/Al.wav") as self.f:
+            with sf.SoundFile("C:/Users/turch/PycharmProjects/Sonnic/source/Al.wav") as self.f:
                 for _ in range(self.buffersize):
                     data = self.f.buffer_read(self.blocksize, dtype='float32')
                     if not data:
                         break
                     self.q.put_nowait(data)  # Pre-fill queue
 
-                stream = sd.RawOutputStrsteam(device=sd.default.device,
+                stream = sd.RawOutputStream(device=sd.default.device,
                                          samplerate=self.f.samplerate,
                                          blocksize=self.blocksize,
                                          dtype='float32',

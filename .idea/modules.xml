@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/InpositionOfSounds.iml" filepath="$PROJECT_DIR$/.idea/InpositionOfSounds.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Sonnic.iml" filepath="$PROJECT_DIR$/.idea/Sonnic.iml" />
     </modules>
   </component>
 </project>
